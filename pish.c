@@ -66,7 +66,7 @@ void parse_command(char *command, struct pish_arg *arg) {
     }
 
 
-    arg->argv[arg->argc] = NULL;
+    arg->argv[arg->argc] =NULL;
 
 
 
@@ -259,9 +259,12 @@ void run(struct pish_arg *arg) {
     }
 
     if(!script_mode){
-
-
-        add_history(arg);
+        int skip_history = (strcmp(cmd, "history") == 0 &&
+                            arg->argc == 2 &&
+                            strcmp(arg->argv[1], "-c") == 0);
+        if (!skip_history) {
+            add_history(arg);
+        }
     }
     
 }
