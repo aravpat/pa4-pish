@@ -219,6 +219,9 @@ void run(struct pish_arg *arg) {
 
 
         if(arg->argc== 1){
+            if(!script_mode){
+                add_history(arg);
+            }
             print_history();
 
 
@@ -259,12 +262,21 @@ void run(struct pish_arg *arg) {
     }
 
     if(!script_mode){
-        int skip_history = (strcmp(cmd, "history") == 0 &&
-                            arg->argc == 2 &&
-                            strcmp(arg->argv[1], "-c") == 0);
-        if (!skip_history) {
+
+
+        int skip_history =(strcmp(cmd, "history")== 0&&
+                            ((arg->argc == 1) ||
+                             (arg->argc == 2 &&
+                              strcmp(arg->argv[1], "-c")== 0)));
+
+
+        if(!skip_history){
+
+
             add_history(arg);
         }
+
+        
     }
     
 }
